@@ -1,14 +1,16 @@
 package com.lambdaschool.orders;
 
-import com.github.javafaker.Faker;
+//import com.github.javafaker.Faker;
 import com.lambdaschool.orders.models.Agent;
 import com.lambdaschool.orders.models.Customer;
 import com.lambdaschool.orders.models.Order;
 import com.lambdaschool.orders.models.Payment;
 import com.lambdaschool.orders.repositories.AgentsRepository;
 import com.lambdaschool.orders.repositories.CustomersRepository;
-import com.lambdaschool.orders.repositories.OrdersRepository;
+import com.lambdaschool.orders.repositories.OrderRepository;
 import com.lambdaschool.orders.repositories.PaymentRepository;
+import com.lambdaschool.orders.services.OrderServices;
+import com.lambdaschool.orders.services.PaymentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -40,13 +42,13 @@ public class SeedData
      * Connects the orders table to this SeedData method
      */
     @Autowired
-    private OrdersRepository ordersrepos;
+    private OrderServices orderServices;
 
     /**
      * Connects the payment table to this SeedData method
      */
     @Autowired
-    private PaymentRepository paymentrepos;
+    private PaymentServices paymentServices;
 
     /**
      * A Random generator is needed to randomly generate faker data.
@@ -72,10 +74,10 @@ public class SeedData
         Payment pay3 = new Payment("Credit Card");
         Payment pay4 = new Payment("Mobile Pay");
 
-        pay1 = paymentrepos.save(pay1);
-        pay2 = paymentrepos.save(pay2);
-        pay3 = paymentrepos.save(pay3);
-        pay4 = paymentrepos.save(pay4);
+        pay1 = paymentServices.save(pay1);
+        pay2 = paymentServices.save(pay2);
+        pay3 = paymentServices.save(pay3);
+        pay4 = paymentServices.save(pay4);
 
         Agent a01 = new Agent("Ramasundar",
             "Bangalore",
@@ -539,97 +541,97 @@ public class SeedData
         custrepos.save(c24);
         custrepos.save(c25);
 
-        ordersrepos.save(o01);
-        ordersrepos.save(o02);
-        ordersrepos.save(o03);
-        ordersrepos.save(o04);
-        ordersrepos.save(o05);
-        ordersrepos.save(o06);
-        ordersrepos.save(o07);
-        ordersrepos.save(o08);
-        ordersrepos.save(o09);
-        ordersrepos.save(o10);
-        ordersrepos.save(o11);
-        ordersrepos.save(o12);
+        orderServices.save(o01);
+        orderServices.save(o02);
+        orderServices.save(o03);
+        orderServices.save(o04);
+        orderServices.save(o05);
+        orderServices.save(o06);
+        orderServices.save(o07);
+        orderServices.save(o08);
+        orderServices.save(o09);
+        orderServices.save(o10);
+        orderServices.save(o11);
+        orderServices.save(o12);
 
         //Begins the faker data
 
-        Faker dataFaker = new Faker(new Locale("en-US"));
-        Set<String> customerNames = new HashSet<>();
-        for (int i = 0; i < 100; i++)
-        {
-            customerNames.add(dataFaker.name()
-                .fullName());
-        }
-
-        for (String theName : customerNames)
-        {
-            String custcity = dataFaker.address()
-                .city();
-            String tempWorkingarea = dataFaker.address()
-                .cityName();
-            String tempCustcountry = dataFaker.address()
-                .country();
-            String tempGrade = dataFaker.country()
-                .countryCode2();
-            double tempOpeningamt = dataFaker.number()
-                .randomDouble(2,
-                    0,
-                    10000);
-            double tempReceiveamt = dataFaker.number()
-                .randomDouble(2,
-                    0,
-                    10000);
-            double tempPaymentamt = dataFaker.number()
-                .randomDouble(2,
-                    0,
-                    10000);
-            double tempOutstandingamt = dataFaker.number()
-                .randomDouble(2,
-                    0,
-                    10000);
-            String tempPhone = dataFaker.phoneNumber()
-                .phoneNumber();
-
-            Customer fakeCustomer = new Customer(theName,
-                custcity,
-                tempWorkingarea,
-                tempCustcountry,
-                tempGrade,
-                tempOpeningamt,
-                tempReceiveamt,
-                tempPaymentamt,
-                tempOutstandingamt,
-                tempPhone,
-                a10);
-
-            int randomNumber = random.nextInt(10); // random number 0 through 9
-            for (int i = 0; i < randomNumber; i++)
-            {
-                double tempGetOrdamount = dataFaker.number()
-                    .randomDouble(2,
-                        0,
-                        10000);
-                double tempGetAdvanceamount = dataFaker.number()
-                    .randomDouble(2,
-                        0,
-                        10000);
-                String tempGetOrderdescription = dataFaker.lorem()
-                    .characters();
-
-                Order newOrder = new Order(tempGetOrdamount,
-                    tempGetAdvanceamount,
-                    fakeCustomer,
-                    tempGetOrderdescription);
-
-                newOrder.getPayments()
-                    .add(pay1);
-                fakeCustomer.getOrders()
-                    .add(newOrder);
-            }
-
-            // this actually saves the faker data.
-            custrepos.save(fakeCustomer);
-        }
+//        Faker dataFaker = new Faker(new Locale("en-US"));
+//        Set<String> customerNames = new HashSet<>();
+//        for (int i = 0; i < 100; i++)
+//        {
+//            customerNames.add(dataFaker.name()
+//                .fullName());
+//        }
+//
+//        for (String theName : customerNames)
+//        {
+//            String custcity = dataFaker.address()
+//                .city();
+//            String tempWorkingarea = dataFaker.address()
+//                .cityName();
+//            String tempCustcountry = dataFaker.address()
+//                .country();
+//            String tempGrade = dataFaker.country()
+//                .countryCode2();
+//            double tempOpeningamt = dataFaker.number()
+//                .randomDouble(2,
+//                    0,
+//                    10000);
+//            double tempReceiveamt = dataFaker.number()
+//                .randomDouble(2,
+//                    0,
+//                    10000);
+//            double tempPaymentamt = dataFaker.number()
+//                .randomDouble(2,
+//                    0,
+//                    10000);
+//            double tempOutstandingamt = dataFaker.number()
+//                .randomDouble(2,
+//                    0,
+//                    10000);
+//            String tempPhone = dataFaker.phoneNumber()
+//                .phoneNumber();
+//
+//            Customer fakeCustomer = new Customer(theName,
+//                custcity,
+//                tempWorkingarea,
+//                tempCustcountry,
+//                tempGrade,
+//                tempOpeningamt,
+//                tempReceiveamt,
+//                tempPaymentamt,
+//                tempOutstandingamt,
+//                tempPhone,
+//                a10);
+//
+//            int randomNumber = random.nextInt(10); // random number 0 through 9
+//            for (int i = 0; i < randomNumber; i++)
+//            {
+//                double tempGetOrdamount = dataFaker.number()
+//                    .randomDouble(2,
+//                        0,
+//                        10000);
+//                double tempGetAdvanceamount = dataFaker.number()
+//                    .randomDouble(2,
+//                        0,
+//                        10000);
+//                String tempGetOrderdescription = dataFaker.lorem()
+//                    .characters();
+//
+//                Order newOrder = new Order(tempGetOrdamount,
+//                    tempGetAdvanceamount,
+//                    fakeCustomer,
+//                    tempGetOrderdescription);
+//
+//            `    newOrder.getPayments()
+//                    .add(pay1);
+//                fakeCustomer.getOrders()
+//                    .add(newOrder);
+//            }
+//
+//            // this actually saves the faker data.
+//            custrepos.save(fakeCustomer);
+//        }
     }
 }
